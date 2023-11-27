@@ -6,15 +6,18 @@
           
           HISTORY: 
 
-           The project was done by Lolo Muhammad, a student of group P26
-           It took a week to create this game
+           The project was made by Lolo Mukhammed, a student from group P26
+           While creating this game I faced many challenges which became an experience for me.I improved my skills and understanding of programming.
+           This version of the game has a couple of bugs that will be fixed in the future
+           It took a week to create the game.
+
 
 
             Rules:
 
             -If you cross paths with an enemy, your life is reduced by 20.
             -If you want to heal yourself, there is a first aid kit.
-            -To win you have to find a way out of the maze or collect all the coins.
+            -To win, you must find your way out of the maze or collect all the coins.
 
 
             Press Escape to return 
