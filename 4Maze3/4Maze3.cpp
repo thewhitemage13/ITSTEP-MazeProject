@@ -1,36 +1,33 @@
-﻿#include "Mazex.h" 
+#include "Mazex.h" 
 #include <SFML/Audio.hpp>
-//#pragma comment(lib, "winmm.lib")
 using namespace std;
 // прототипы функций:
-void systemname();
-void options();    // настройка размеров и расположения окна, установка заголовка, скрытие мигающего курсора
+void Systemname();
+void Options();    // настройка размеров и расположения окна, установка заголовка, скрытие мигающего курсора
 void MoveWindow();
-void menu(); // три пункта меню
-void letter(int x, int y, int forecolor, int backcolor, char symb); // рисование квадрата с буквой для заставки
-void text_effect(int x, int y, int forecolor, int backcolor, const char* symb, int len, int pause); // показ "ленты" текста
-void exit(); // быстрый выход из приложения
-void the_end(); // концовка с пожеланием удачи
-void stand(int x, int y, int k, const char* str); // вспомогательная функция по установке курсора в нужную позцию + окрашивание
-void help(); // открытие файла справки
-void game(); // основной игровой процесс
-
-
+void Menu(); // три пункта меню
+void Letter(int x, int y, int forecolor, int backcolor, char symb); // рисование квадрата с буквой для заставки
+void Text_effect(int x, int y, int forecolor, int backcolor, const char* symb, int len, int pause); // показ "ленты" текста
+void Exit(); // быстрый выход из приложения
+void The_end(); // концовка с пожеланием удачи
+void Stand(int x, int y, int k, const char* str); // вспомогательная функция по установке курсора в нужную позцию + окрашивание
+void Help(); // открытие файла справки
+void Game(); // основной игровой процесс
 // точка входа в приложение
 int main()
 {
-	options();
-	menu();
+	Options();
+	Menu();
 }
-
+//конец программы
 void Finish()
 {
 	system("cls");
 	main();
 	Sleep(INFINITE);
 }
-
-void letter(int x, int y, short forecolor, int backcolor, char symb) // функция вывода квадратика с буквой (стилизация под клавиатуру)
+// функция вывода квадратика с буквой (стилизация под клавиатуру)
+void Letter(int x, int y, short forecolor, int backcolor, char symb) 
 {
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	int sizeX = 9; // размер квадрата по ширине
@@ -51,14 +48,14 @@ void letter(int x, int y, short forecolor, int backcolor, char symb) // функ
 	SetConsoleCursorPosition(h, temp);
 	cout << symb;
 }
-
-void systemname()
+//задаем размер окна
+void Systemname()
 {
 	system("title Keyboard simulator");
 	system("mode con cols=130 lines=50");
 }
 
-void options()
+void Options()
 {
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	// размер окна - 130х50 символов
@@ -67,16 +64,16 @@ void options()
 	ci.dwSize = 100; // на самом деле, не важно что сюда писать - подходит любое значение от 1 до 100 (рамер курсора в процентах относительно клетки)
 	SetConsoleCursorInfo(h, &ci); // применить настройки
 }
-
+// двигаем окно: консольное окно ставится в точку 50 пикселей по иксу и 50 по игреку относительно рабочего стола
 void MoveWindow()
 {
-	MoveWindow(GetConsoleWindow(), 50, 50, 2000, 2000, true); // двигаем окно: консольное окно ставится в точку 50 пикселей по иксу и 50 по игреку относительно рабочего стола
+	MoveWindow(GetConsoleWindow(), 50, 50, 2000, 2000, true); 
 	// 2000х2000 - максимальные размеры окна, тру - перерисовка (обычно это имеет значение для приложений под виндовс)
 }
 
 // побуквенный показ переданного текста:
 // x y - начальные координаты показа, фор и бэк калар - цвет текста и фона, текст - указатель на строку текста, лен - длина этого текста, пауз - время в мс перед показом следующей буквы текста
-void text_effect(int x, int y, int forecolor, int backcolor, const char* text, int len, int pause)
+void Text_effect(int x, int y, int forecolor, int backcolor, const char* text, int len, int pause)
 {
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	for (int i = 0; i < len; i++)
@@ -88,24 +85,23 @@ void text_effect(int x, int y, int forecolor, int backcolor, const char* text, i
 		Sleep(pause); // ждём
 	}
 }
-
-void exit()
-{ // делаем цвет текста чёрным - чтобы пользователь не увидел никаких надписей
+// делаем цвет текста чёрным - чтобы пользователь не увидел никаких надписей
+void Exit()
+{ 
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h, 0);
 	system("taskkill -im cmd.exe"); // закрываем все процессы по имени cmd - это все консольные окна
 }
 
-void the_end()
+void The_end()
 {
-	text_effect(5, 2, 12, 0, "Thank you for playing!", 30, 20); // красным цветом благодарим за игру
-	text_effect(5, 4, 7, 0, "Press Enter to exit", 24, 15); // белым цветом выводим просьбу нажать на энтер
-
+	Text_effect(5, 2, 12, 0, "Thank you for playing!", 30, 20); // красным цветом благодарим за игру
+	Text_effect(5, 4, 7, 0, "Press Enter to exit", 24, 15); // белым цветом выводим просьбу нажать на энтер
 	while (_getch() != 13); // до тех пор, пока пользователь не нажмёт на энтер - у него код 13
-	exit(); // выходим
+	Exit(); // выходим
 }
 
-void stand(int x, int y, int k, const char* str)
+void Stand(int x, int y, int k, const char* str)
 {
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD c{ x, y };
@@ -113,10 +109,8 @@ void stand(int x, int y, int k, const char* str)
 	SetConsoleTextAttribute(h, k);
 	cout << str << "\n";
 }
-
-
-
-void help()
+//информаия
+void Help()
 {
 	sf::SoundBuffer BlusterV6Buffer; BlusterV6Buffer.loadFromFile("D:\\C++\\C++\\4Maze3\\GameEffects\\Mouse.wav");
 	sf::Sound BlasterV6(BlusterV6Buffer);
@@ -132,12 +126,12 @@ void help()
 		if (n == 27 || n == 'n')
 		{
 			BlasterV6.play();
-			menu();
+			Menu();
 		}
-		
 	}
 }
-void game()
+//вход в игру
+void Game()
 { 	
 	sf::SoundBuffer BlusterV1Buffer; BlusterV1Buffer.loadFromFile("D:\\C++\\C++\\4Maze3\\GameEffects\\03-Rugged-Area.wav");
 	sf::Sound BlasterV1(BlusterV1Buffer);
@@ -170,9 +164,6 @@ void game()
 
 	System("title Maze");
 	Console();
-	srand(time(0));
-	System("title Maze");
-	Console();
 	srand(time(0)); // запуск алгоритма генерации СЧ
 
 	const int width = 60; // ширина лабиринта
@@ -187,14 +178,14 @@ void game()
 		{
 			maze[y][x] = rand() % 5; // 0 1 2 3
 			// установка стен по бокам (делаем рамки)
-			walls(x, y, width, height, maze, WALL);
+			Walls(x, y, width, height, maze, WALL);
 			// определение точки входа и выхода из лабиринта
-			mazeexit(x, y, width, height, maze, HALL);
+			Mazeexit(x, y, width, height, maze, HALL);
 			// если текущий элемент 2д-массива - это враг,
 			// то ниже код, который уменьшает их количество
 			// условно, произойдёт жеребьёвка (или же подбрасывание монетки)
-			reduction(x, y, maze, ENEMY, HALL, 10);
-			reduction(x, y, maze, 4, HALL, 20);
+			Reduction(x, y, maze, ENEMY, HALL, 10);
+			Reduction(x, y, maze, 4, HALL, 20);
 
 			if (maze[y][x] == 2)
 			{
@@ -241,7 +232,6 @@ void game()
 	int money = two;
 
 	cout << (char)1;
-
 	// начинаем интерактив (польщователь управляет смайликом с помощью клавиатуры)
 	while (true)
 	{
@@ -328,7 +318,6 @@ void game()
 				break;
 			}
 		}
-
 		else 
 		{
 			Sleep(20);
@@ -357,8 +346,7 @@ void game()
 					maze[enemy_positions[i].Y][enemy_positions[i].X - 1] != MazeObject::BORDER &&
 					maze[enemy_positions[i].Y][enemy_positions[i].X - 1] != MazeObject::ENEMY
 					)
-				{
-					
+				{	
 					COORD temp = enemy_positions[i];
 					SetConsoleCursorPosition(h, temp);
 					cout << " ";
@@ -376,14 +364,12 @@ void game()
 					maze[enemy_positions[i].Y][enemy_positions[i].X + 1] != MazeObject::WALL &&
 					maze[enemy_positions[i].Y][enemy_positions[i].X + 1] != MazeObject::BORDER &&
 					maze[enemy_positions[i].Y][enemy_positions[i].X + 1] != MazeObject::ENEMY)
-				{
-					
+				{	
 					COORD temp = enemy_positions[i];
 					SetConsoleCursorPosition(h, temp);
 					cout << " ";
 					maze[enemy_positions[i].Y][enemy_positions[i].X] = MazeObject::HALL;
-
-					
+	
 					temp.X = enemy_positions[i].X + 1;
 					temp.Y = enemy_positions[i].Y;
 					SetConsoleCursorPosition(h, temp);
@@ -391,18 +377,15 @@ void game()
 					cout << (char)2;
 					maze[enemy_positions[i].Y][enemy_positions[i].X + 1] = MazeObject::ENEMY;
 				}
-
 				else if (r == UP &&
 					maze[enemy_positions[i].Y - 1][enemy_positions[i].X] != MazeObject::WALL &&
 					maze[enemy_positions[i].Y - 1][enemy_positions[i].X] != MazeObject::BORDER &&
 					maze[enemy_positions[i].Y - 1][enemy_positions[i].X] != MazeObject::ENEMY)
-				{
-					
+				{	
 					COORD temp = enemy_positions[i];
 					SetConsoleCursorPosition(h, temp);
 					cout << " ";
 					maze[enemy_positions[i].Y][enemy_positions[i].X] = MazeObject::HALL;
-
 					
 					temp.X = enemy_positions[i].X;
 					temp.Y = enemy_positions[i].Y - 1;
@@ -430,14 +413,11 @@ void game()
 				}
 			}
 		}
-		
 	}
 	Finish();
 }
-
-void menu()
+void Menu()
 {
-	
 	sf::SoundBuffer BlusterV5Buffer; BlusterV5Buffer.loadFromFile("D:\\C++\\C++\\4Maze3\\GameEffects\\02-Metal-Area.wav");
 	sf::Sound BlasterV5(BlusterV5Buffer);
 	BlasterV5.setVolume(10);
@@ -447,14 +427,13 @@ void menu()
 	sf::Sound BlasterV6(BlusterV6Buffer);
 	BlasterV6.setVolume(10);
 	
-
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	system("title MAZE");
+	system("title Maze");
 	int start_y = 3;
 	system("cls"); 
-	stand(5, start_y, 10, "Help");
-	stand(5, start_y + 2, 2, "Game");
-	stand(5, start_y + 4, 2, "Exit");
+	Stand(5, start_y, 10, "Help");
+	Stand(5, start_y + 2, 2, "Game");
+	Stand(5, start_y + 4, 2, "Exit");
 
 	int k;	
 	int cur = 1;
@@ -469,12 +448,12 @@ void menu()
 				cur++;
 				if (cur == 2)
 				{
-					stand(5, start_y, 2, "Help"); 
-					stand(5, start_y + 2, 10, "Game"); 
+					Stand(5, start_y, 2, "Help"); 
+					Stand(5, start_y + 2, 10, "Game"); 
 				}
 				else if (cur == 3) {
-					stand(5, start_y + 2, 2, "Game");
-					stand(5, start_y + 4, 10, "Exit");
+					Stand(5, start_y + 2, 2, "Game");
+					Stand(5, start_y + 4, 10, "Exit");
 				}
 			}
 		}
@@ -486,13 +465,13 @@ void menu()
 				cur--;
 				if (cur == 2)
 				{
-					stand(5, start_y + 2, 10, "Game");
-					stand(5, start_y + 4, 2, "Exit");
+					Stand(5, start_y + 2, 10, "Game");
+					Stand(5, start_y + 4, 2, "Exit");
 				}
 				else if (cur == 1)
 				{
-					stand(5, start_y, 10, "Help");
-					stand(5, start_y + 2, 2, "Game");
+					Stand(5, start_y, 10, "Help");
+					Stand(5, start_y + 2, 2, "Game");
 				}
 			}
 		}
@@ -504,19 +483,17 @@ void menu()
 			if (cur == 1)
 			{
 				BlasterV5.stop();
-				help();
-			}
-				
+				Help();
+			}	
 			else if (cur == 2)
 			{
 				BlasterV5.stop();
-				game();
+				Game();
 
 			}
-				
 			else if (cur == 3)
-				the_end();
-			
+				The_end();
+		
 			exit(0);
 		}
 	}
