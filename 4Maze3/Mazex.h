@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime> 
 #include <Windows.h> 
 #include <conio.h> 
@@ -49,20 +49,20 @@ void SetCursorChar(int x, int y, int color, char text)
     SetConsoleTextAttribute(h, color); // установка цвета
     cout << text; // вывод строки текста
 }
-
-void walls(int x, int y, int width, int height, int arr[][60], int elem) {
+//стны
+void Walls(int x, int y, int width, int height, int arr[][60], int elem) {
     if (x == 0 || y == 0 || x == width - 1 || y == height - 1) {
-        arr[y][x] = elem;
+       arr[y][x] = elem;
     }
 }
-
-void mazeexit(int x, int y, int width, int height, int arr[][60], int elem) {
+//точки входа-выхода
+void Mazeexit(int x, int y, int width, int height, int arr[][60], int elem) {
     if (x == 0 && y == 2 || x == 1 && y == 2 || x == 2 && y == 2 || x == width - 1 && y == height - 3 || x == width - 2 && y == height - 3 || x == width - 3 && y == height - 3) {
         arr[y][x] = elem;
     }
 }
-
-void reduction(int x, int y, int arr[][60], int item, int elem, int probability) {
+//уменьшние кол-ва обьекта
+void Reduction(int x, int y, int arr[][60], int item, int elem, int probability) {
     if (arr[y][x] == item) {
         int r;
         r = rand() % probability;
