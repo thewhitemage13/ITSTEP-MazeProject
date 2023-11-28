@@ -51,7 +51,7 @@ void Letter(int x, int y, short forecolor, int backcolor, char symb)
 //задаем размер окна
 void Systemname()
 {
-	system("title Keyboard simulator");
+	system("title Maze");
 	system("mode con cols=130 lines=50");
 }
 
